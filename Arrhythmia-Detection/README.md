@@ -1,83 +1,129 @@
-# Arrhythmia Detection using Machine Learning
+# 🫀 Arrhythmia Classification with Machine Learning
 
-## Overview
-This project focuses on detecting arrhythmia using machine learning techniques. Arrhythmia is an irregular heartbeat condition that can have serious health implications. The goal of this project is to build a predictive model that can classify whether a patient has an arrhythmic condition based on physiological measurements.
+> **Can machine learning reliably detect irregular heartbeats — and reduce the burden on manual ECG diagnosis?**
 
-## Dataset
-- The dataset contains various electrocardiogram (ECG) and physiological attributes collected from patients.
-- It includes multiple features such as heart rate, QRS duration, PR interval, and other cardiological measurements.
-- The dataset is labeled, allowing for supervised learning-based classification.
-- Source: [Add dataset source if available]
+This project builds a multi-class classification model to detect arrhythmia from physiological and ECG measurements, using the UCI Arrhythmia dataset. The focus is on handling extreme class imbalance and high dimensionality — two of the hardest real-world challenges in clinical ML.
 
-## Project Structure
-- `Arrhythmia Data.ipynb` – Main Jupyter Notebook containing data preprocessing, model training, and evaluation.
-- `README.md` – Project documentation.
+---
 
-## Implementation Steps
-### 1. Data Preprocessing
-- Handling missing values by imputing or removing incomplete records.
-- Normalizing numerical features for better model performance.
-- Encoding categorical variables (if applicable).
+## 📊 Key Results
 
-### 2. Exploratory Data Analysis (EDA)
-- Visualizing distributions of key features using histograms and boxplots.
-- Identifying correlations between features using heatmaps.
-- Understanding data imbalances and possible biases.
+| Metric | Value |
+|---|---|
+| Final model | **Random Forest** (tuned via GridSearchCV) |
+| Test set accuracy | **81%** |
+| Cross-validation mean accuracy | **82.27%** |
+| Classes classified | 16 arrhythmia types |
+| Features in raw dataset | 279 |
+| Features selected | Top 20 |
+| Best hyperparameters | `max_depth=20`, `min_samples_split=5`, `n_estimators=100` |
 
-### 3. Model Training
-- Splitting the dataset into training and testing sets.
-- Training various machine learning models:
-  - Logistic Regression
-  - Decision Trees
-  - Random Forest
-  - Support Vector Machine (SVM)
-  - Neural Networks (if applicable)
-- Hyperparameter tuning using GridSearchCV.
+> **Clinical impact:** An 82% cross-validated accuracy across 16 arrhythmia types from ECG data can help triage patients faster, flag high-risk cases for cardiologist review, and reduce time spent on routine normal readings.
 
-### 4. Model Evaluation
-- Evaluating model performance using:
-  - Accuracy
-  - Precision, Recall, F1-score
-  - ROC-AUC Curve for classification models
-- Comparing models and selecting the best-performing one.
+---
 
-## How to Use
-### Requirements
-Ensure you have the following dependencies installed:
-```bash
-pip install numpy pandas scikit-learn matplotlib seaborn jupyter
+## 🔍 The Problem
+
+Manual ECG interpretation is time-intensive and requires specialist expertise. With 16 distinct arrhythmia classes and a dataset of only 452 samples across 279 features, this project tackles three compounding challenges simultaneously:
+
+- **Extreme high dimensionality** — 279 features, 452 samples (p >> n)
+- **Severe class imbalance** — some arrhythmia types have very few examples
+- **Multi-class classification** — not just "normal vs abnormal" but 16 distinct conditions
+
+---
+
+## 🔄 Pipeline Overview
+
+```
+UCI Arrhythmia dataset (452 samples, 279 features, 16 classes)
+       ↓
+  Feature selection — top 20 most informative features
+  (QRS duration, Heart rate, ECG_91, ECG_100, ECG_112... and more)
+       ↓
+  Class balancing — Random Oversampling + SMOTE
+       ↓
+  Baseline model — Logistic Regression
+       ↓
+  Model selection — Random Forest
+       ↓
+  Hyperparameter tuning — GridSearchCV
+  (Best: max_depth=20, min_samples_split=5, n_estimators=100)
+       ↓
+  5-fold cross-validation — Mean accuracy: 82.27%
+       ↓
+  Test set evaluation — 81% accuracy
 ```
 
-### Running the Notebook
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/YOUR-USERNAME/arrhythmia-detection.git
-   ```
-2. Navigate to the project folder:
-   ```bash
-   cd arrhythmia-detection
-   ```
-3. Open Jupyter Notebook:
-   ```bash
-   jupyter notebook
-   ```
-4. Run `Arrhythmia Data.ipynb` step by step to reproduce the results.
+---
 
-## Results & Findings
-- The model with the best performance achieved an accuracy of **[Add accuracy]**.
-- Key patterns identified in the data:
-  - [Add insights from EDA]
-  - [Mention any challenges faced, e.g., class imbalance]
-- Visualizations such as confusion matrices and ROC curves illustrate model effectiveness.
+## 🏆 Top 20 Selected Features
 
-## Future Improvements
-- Improve feature selection using PCA or feature engineering.
-- Experiment with deep learning models such as CNNs for ECG pattern detection.
-- Deploy the model as a web app using Flask or Streamlit.
+| Feature | Description |
+|---|---|
+| QRS duration | Duration of the QRS complex |
+| Heart rate | Beats per minute |
+| ECG_91, ECG_100, ECG_112 | ECG amplitude measurements |
+| ECG_113, ECG_114, ECG_124 | ECG amplitude measurements |
+| ECG_137, ECG_149, ECG_197 | ECG amplitude measurements |
+| ECG_220, ECG_228, ECG_230 | ECG amplitude measurements |
+| ECG_238, ECG_240, ECG_241 | ECG amplitude measurements |
+| ECG_248, ECG_251 | ECG amplitude measurements |
 
-## Contributing
-If you'd like to contribute, feel free to fork this repository and submit a pull request.
+---
 
-## License
-This project is open-source and available under the MIT License.
+## 💡 Key Findings
 
+- **Feature reduction is critical** — dropping from 279 to top 20 features reduced noise significantly; most ECG signal is concentrated in a small subset of measurements
+- **SMOTE outperformed random oversampling** for minority arrhythmia classes — generating synthetic samples that better represent rare class boundaries
+- **Cross-validation confirms generalizability** — 82.27% mean accuracy across 5 folds, showing the model isn't just overfitting to the test set
+- **GridSearchCV found the right depth** — `max_depth=20` balances complexity and overfitting for this dataset size
+
+---
+
+## 📋 Classification Report Summary
+
+The model achieves balanced precision and recall across classes, with macro and weighted averages both near 81%, confirming the model handles minority arrhythmia types reasonably well — not just the common ones.
+
+---
+
+## 🗂️ Dataset
+
+**Source:** [UCI Arrhythmia Dataset](https://archive.ics.uci.edu/dataset/5/arrhythmia)  
+452 patient records · 279 features · 16 arrhythmia classes · labeled for supervised learning
+
+Features include: heart rate, QRS duration, PR interval, T-wave measurements, and other cardiological ECG attributes.
+
+---
+
+## 📁 Repository Structure
+
+```
+Arrhythmia-Detection/
+├── Arrhythmia Data.ipynb   # Full pipeline: EDA → feature selection → SMOTE → GridSearchCV → evaluation
+├── arrhythmia.data         # Raw dataset
+├── arrhythmia.names        # Feature descriptions
+└── README.md
+```
+
+---
+
+## 🛠️ Tech Stack
+
+`Python` `pandas` `scikit-learn` `imbalanced-learn` `SMOTE` `GridSearchCV` `matplotlib` `seaborn`
+
+---
+
+## 🚀 Run Locally
+
+```bash
+pip install numpy pandas scikit-learn imbalanced-learn matplotlib seaborn jupyter
+jupyter notebook "Arrhythmia Data.ipynb"
+```
+
+---
+
+## 🔮 Future Work
+
+- Experiment with deep learning (1D-CNN) on raw ECG signal data for improved pattern detection
+- Extend to real-time ECG stream classification using a lightweight deployed model
+- Incorporate explainability (SHAP values) to surface which features drive each arrhythmia prediction
