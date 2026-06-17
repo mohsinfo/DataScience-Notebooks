@@ -2,7 +2,15 @@
 
 > **Can machine learning reliably detect irregular heartbeats — and reduce the burden on manual ECG diagnosis?**
 
-This project builds a multi-class classification model to detect arrhythmia from physiological and ECG measurements, using the UCI Arrhythmia dataset. The focus is on handling extreme class imbalance and high dimensionality — two of the hardest real-world challenges in clinical ML.
+This project builds a multi-class classification model to detect arrhythmia from physiological and ECG measurements, using the UCI Arrhythmia dataset. It also includes an **interactive clinical dashboard** for exploratory data analysis and patient risk visualization.
+
+---
+
+## 🔴 Live Interactive Dashboard
+
+**[View Clinical Dashboard →](https://mohsinfo.github.io/DataScience-Notebooks/Arrhythmia-Detection/)**
+
+> 3-page interactive dashboard — Patient Risk Overview · Diagnosis Breakdown · ECG Feature Patterns
 
 ---
 
@@ -99,9 +107,11 @@ Features include: heart rate, QRS duration, PR interval, T-wave measurements, an
 
 ```
 Arrhythmia-Detection/
-├── Arrhythmia Data.ipynb   # Full pipeline: EDA → feature selection → SMOTE → GridSearchCV → evaluation
-├── arrhythmia.data         # Raw dataset
-├── arrhythmia.names        # Feature descriptions
+├── Arrhythmia Data.ipynb       # Full pipeline: EDA → feature selection → SMOTE → GridSearchCV → evaluation
+├── index.html                  # Interactive 3-page clinical dashboard (live link above)
+├── arrhythmia_dashboard.csv    # Cleaned dashboard-ready dataset (24 key columns)
+├── arrhythmia.data             # Raw dataset
+├── arrhythmia.names            # Feature descriptions
 └── README.md
 ```
 
@@ -109,7 +119,7 @@ Arrhythmia-Detection/
 
 ## 🛠️ Tech Stack
 
-`Python` `pandas` `scikit-learn` `imbalanced-learn` `SMOTE` `GridSearchCV` `matplotlib` `seaborn`
+`Python` `pandas` `scikit-learn` `imbalanced-learn` `SMOTE` `GridSearchCV` `matplotlib` `seaborn` `Chart.js` `HTML/CSS`
 
 ---
 
@@ -120,6 +130,8 @@ pip install numpy pandas scikit-learn imbalanced-learn matplotlib seaborn jupyte
 jupyter notebook "Arrhythmia Data.ipynb"
 ```
 
+To view the dashboard locally, just open `index.html` in any browser.
+
 ---
 
 ## 🔮 Future Work
@@ -127,3 +139,4 @@ jupyter notebook "Arrhythmia Data.ipynb"
 - Experiment with deep learning (1D-CNN) on raw ECG signal data for improved pattern detection
 - Extend to real-time ECG stream classification using a lightweight deployed model
 - Incorporate explainability (SHAP values) to surface which features drive each arrhythmia prediction
+- Deploy dashboard with live patient filtering and model inference via FastAPI backend
