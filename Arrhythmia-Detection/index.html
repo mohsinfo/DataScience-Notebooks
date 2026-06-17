@@ -1,34 +1,35 @@
-
-<h2 class="sr-only">Arrhythmia Clinical Intelligence Dashboard showing patient risk overview, diagnosis breakdown, and ECG feature patterns for 452 patients.</h2>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arrhythmia Clinical Intelligence Dashboard</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Segoe UI', system-ui, sans-serif; }
-.dash { background: #EEF2F7; min-height: 100vh; }
-.topbar { background: #1A5F8A; padding: 13px 20px; display: flex; align-items: center; justify-content: space-between; }
-.topbar-left h1 { color: #fff; font-size: 15px; font-weight: 600; letter-spacing: 0.2px; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: #EEF2F7; }
+.dash { max-width: 1280px; margin: 0 auto; }
+.topbar { background: #1A5F8A; padding: 13px 20px; display: flex; align-items: center; justify-content: space-between; border-radius: 0 0 0 0; }
+.topbar-left h1 { color: #fff; font-size: 16px; font-weight: 600; letter-spacing: 0.2px; }
 .topbar-left p { color: #9FC8E4; font-size: 11px; margin-top: 2px; }
 .tabs { display: flex; gap: 4px; }
-.tab { padding: 6px 14px; border-radius: 6px; font-size: 11px; font-weight: 500; cursor: pointer; color: #9FC8E4; background: rgba(255,255,255,0.08); border: none; transition: all 0.15s; }
+.tab { padding: 7px 16px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; color: #9FC8E4; background: rgba(255,255,255,0.08); border: none; transition: all 0.15s; }
 .tab.active { background: #fff; color: #1A5F8A; }
-.content { display: none; padding: 14px 16px; }
+.content { display: none; padding: 16px; }
 .content.show { display: block; }
 .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
-.kpi { background: #fff; border-radius: 10px; padding: 13px 15px; border-top: 3px solid #1A5F8A; }
+.kpi { background: #fff; border-radius: 10px; padding: 14px 16px; border-top: 3px solid #1A5F8A; }
 .kpi.danger { border-top-color: #C0392B; }
 .kpi.success { border-top-color: #1A8A6A; }
 .kpi.warn { border-top-color: #C07A1A; }
 .kpi-label { font-size: 10px; color: #7A8A99; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px; }
-.kpi-val { font-size: 24px; font-weight: 700; color: #1A5F8A; line-height: 1; }
+.kpi-val { font-size: 26px; font-weight: 700; color: #1A5F8A; line-height: 1; transition: all 0.2s; }
 .kpi.danger .kpi-val { color: #C0392B; }
 .kpi.success .kpi-val { color: #1A8A6A; }
 .kpi.warn .kpi-val { color: #C07A1A; }
 .kpi-sub { font-size: 10px; color: #AAB8C2; margin-top: 4px; }
-.grid2 { display: grid; grid-template-columns: 1fr 220px; gap: 12px; margin-bottom: 12px; }
-.grid2b { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.card { background: #fff; border-radius: 10px; padding: 14px 16px; }
-.card-title { font-size: 11px; font-weight: 600; color: #3A4A5A; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-.card-title i { font-size: 14px; color: #1A5F8A; }
+.grid2 { display: grid; grid-template-columns: 1fr 240px; gap: 12px; margin-bottom: 12px; }
+.card { background: #fff; border-radius: 10px; padding: 16px 18px; }
+.card-title { font-size: 11px; font-weight: 600; color: #3A4A5A; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
 .right-stack { display: flex; flex-direction: column; gap: 12px; }
 .legend-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 .leg-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
@@ -36,30 +37,35 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; }
 .leg-val { font-size: 11px; font-weight: 600; color: #3A4A5A; }
 .slicer-title { font-size: 10px; color: #7A8A99; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
 .slicer-grid { display: flex; flex-direction: column; gap: 6px; }
-.slicer-btn { padding: 7px 12px; border-radius: 7px; font-size: 11px; font-weight: 500; cursor: pointer; border: 1.5px solid #E0E8F0; background: #F4F8FB; color: #5A6A7A; text-align: left; transition: all 0.12s; display: flex; justify-content: space-between; align-items: center; }
-.slicer-btn:hover { border-color: #1A5F8A; color: #1A5F8A; }
-.slicer-btn.sel { background: #E6F1FA; border-color: #1A5F8A; color: #1A5F8A; }
-.slicer-btn.sel-d { background: #FDECEA; border-color: #C0392B; color: #C0392B; }
-.slicer-btn.sel-w { background: #FEF6EC; border-color: #C07A1A; color: #C07A1A; }
+.slicer-btn { padding: 8px 12px; border-radius: 7px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1.5px solid #E0E8F0; background: #F4F8FB; color: #5A6A7A; text-align: left; transition: all 0.12s; display: flex; justify-content: space-between; align-items: center; }
+.slicer-btn:hover { border-color: #1A5F8A; }
+.slicer-btn.sel-all { background: #E6F1FA; border-color: #1A5F8A; color: #1A5F8A; }
+.slicer-btn.sel-normal { background: #E0F5EE; border-color: #1A8A6A; color: #1A8A6A; }
+.slicer-btn.sel-mild { background: #FEF6EC; border-color: #C07A1A; color: #C07A1A; }
+.slicer-btn.sel-severe { background: #FDECEA; border-color: #C0392B; color: #C0392B; }
 .slicer-badge { font-size: 10px; font-weight: 700; }
 .page2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-.tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
-.tbl th { text-align: left; padding: 6px 8px; font-size: 10px; color: #7A8A99; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid #EEF2F7; font-weight: 600; }
-.tbl td { padding: 7px 8px; border-bottom: 0.5px solid #F0F4F8; color: #3A4A5A; vertical-align: middle; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.tbl th { text-align: left; padding: 7px 8px; font-size: 10px; color: #7A8A99; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid #EEF2F7; font-weight: 600; }
+.tbl td { padding: 8px; border-bottom: 0.5px solid #F0F4F8; color: #3A4A5A; vertical-align: middle; }
 .tbl tr:last-child td { border-bottom: none; }
 .tbl tr:hover td { background: #F8FAFC; }
-.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+.badge { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 10px; font-weight: 600; }
 .badge-n { background: #E0F5EE; color: #0F6E56; }
 .badge-m { background: #FEF6EC; color: #854F0B; }
 .badge-s { background: #FDECEA; color: #A32D2D; }
-.bar-mini { height: 6px; border-radius: 3px; background: #1A5F8A; display: inline-block; vertical-align: middle; }
+.bar-mini { height: 6px; border-radius: 3px; display: inline-block; vertical-align: middle; }
 .page3-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.empty-state { text-align: center; padding: 40px; color: #AAB8C2; font-size: 12px; }
+canvas { max-width: 100%; }
 </style>
+</head>
+<body>
 
 <div class="dash">
   <div class="topbar">
     <div class="topbar-left">
-      <h1><i class="ti ti-heart-rate-monitor" aria-hidden="true" style="margin-right:6px;font-size:15px;"></i>Arrhythmia Clinical Intelligence</h1>
+      <h1>🫀 Arrhythmia Clinical Intelligence</h1>
       <p>UCI Cardiac Dataset &nbsp;·&nbsp; 452 Patients &nbsp;·&nbsp; 16 Diagnostic Classes</p>
     </div>
     <div class="tabs">
@@ -73,51 +79,48 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; }
     <div class="kpis">
       <div class="kpi">
         <div class="kpi-label">Total Patients</div>
-        <div class="kpi-val">452</div>
-        <div class="kpi-sub">Full dataset</div>
+        <div class="kpi-val" id="kpiTotal">452</div>
+        <div class="kpi-sub" id="kpiTotalSub">Full dataset</div>
       </div>
       <div class="kpi danger">
         <div class="kpi-label">Severe Risk</div>
-        <div class="kpi-val">103</div>
+        <div class="kpi-val" id="kpiSevere">103</div>
         <div class="kpi-sub">22.8% of patients</div>
       </div>
       <div class="kpi success">
         <div class="kpi-label">Normal ECG</div>
-        <div class="kpi-val">245</div>
+        <div class="kpi-val" id="kpiNormal">245</div>
         <div class="kpi-sub">54.2% of patients</div>
       </div>
       <div class="kpi warn">
         <div class="kpi-label">Arrhythmia Rate</div>
-        <div class="kpi-val">45.8%</div>
-        <div class="kpi-sub">207 diagnosed</div>
+        <div class="kpi-val" id="kpiRate">45.8%</div>
+        <div class="kpi-sub" id="kpiRateSub">207 diagnosed</div>
       </div>
     </div>
 
     <div class="grid2">
       <div class="card">
-        <div class="card-title"><i class="ti ti-chart-bar" aria-hidden="true"></i>Patient count by diagnosis</div>
-        <div style="position:relative;width:100%;height:280px;">
-          <canvas id="barChart" role="img" aria-label="Bar chart of patient counts by diagnosis type"></canvas>
+        <div class="card-title">Patient count by diagnosis</div>
+        <div style="position:relative;width:100%;height:300px;">
+          <canvas id="barChart"></canvas>
         </div>
       </div>
       <div class="right-stack">
         <div class="card">
-          <div class="card-title"><i class="ti ti-chart-donut" aria-hidden="true"></i>Normal vs arrhythmia</div>
-          <div style="position:relative;width:100%;height:140px;">
-            <canvas id="donutChart" role="img" aria-label="Donut chart showing 54.2% normal vs 45.8% arrhythmia patients"></canvas>
+          <div class="card-title">Normal vs arrhythmia</div>
+          <div style="position:relative;width:100%;height:150px;">
+            <canvas id="donutChart"></canvas>
           </div>
-          <div style="margin-top:10px;">
-            <div class="legend-row"><div class="leg-dot" style="background:#1A8A6A;"></div><span class="leg-label">Normal</span><span class="leg-val">245</span></div>
-            <div class="legend-row"><div class="leg-dot" style="background:#C0392B;"></div><span class="leg-label">Arrhythmia</span><span class="leg-val">207</span></div>
-          </div>
+          <div style="margin-top:10px;" id="donutLegend"></div>
         </div>
         <div class="card">
           <div class="slicer-title">Filter by risk tier</div>
-          <div class="slicer-grid">
-            <button class="slicer-btn sel" onclick="filterRisk('all',this)">All patients <span class="slicer-badge">452</span></button>
-            <button class="slicer-btn" onclick="filterRisk('normal',this)" style="border-color:#1A8A6A;color:#1A8A6A;background:#E0F5EE;">Normal <span class="slicer-badge">245</span></button>
-            <button class="slicer-btn sel-w" onclick="filterRisk('mild',this)">Mild risk <span class="slicer-badge">104</span></button>
-            <button class="slicer-btn sel-d" onclick="filterRisk('severe',this)">Severe risk <span class="slicer-badge">103</span></button>
+          <div class="slicer-grid" id="riskSlicer">
+            <button class="slicer-btn sel-all" data-tier="all" onclick="filterRisk('all',this)">All patients <span class="slicer-badge">452</span></button>
+            <button class="slicer-btn" data-tier="Normal" onclick="filterRisk('Normal',this)">Normal <span class="slicer-badge">245</span></button>
+            <button class="slicer-btn" data-tier="Mild" onclick="filterRisk('Mild',this)">Mild risk <span class="slicer-badge">104</span></button>
+            <button class="slicer-btn" data-tier="Severe" onclick="filterRisk('Severe',this)">Severe risk <span class="slicer-badge">103</span></button>
           </div>
         </div>
       </div>
@@ -127,29 +130,23 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; }
   <div id="p1" class="content">
     <div class="page2-grid">
       <div class="card">
-        <div class="card-title"><i class="ti ti-stack" aria-hidden="true"></i>Age group distribution by diagnosis</div>
-        <div style="position:relative;width:100%;height:260px;">
-          <canvas id="stackedBar" role="img" aria-label="Stacked bar chart of age groups by diagnosis category"></canvas>
+        <div class="card-title">Age group distribution by risk tier</div>
+        <div style="position:relative;width:100%;height:270px;">
+          <canvas id="stackedBar"></canvas>
         </div>
       </div>
       <div class="card">
-        <div class="card-title"><i class="ti ti-gender-bigender" aria-hidden="true"></i>Gender split by risk tier</div>
-        <div style="position:relative;width:100%;height:260px;">
-          <canvas id="genderBar" role="img" aria-label="Grouped bar chart of gender distribution across risk tiers"></canvas>
+        <div class="card-title">Gender split by risk tier</div>
+        <div style="position:relative;width:100%;height:270px;">
+          <canvas id="genderBar"></canvas>
         </div>
       </div>
     </div>
     <div class="card">
-      <div class="card-title"><i class="ti ti-table" aria-hidden="true"></i>Diagnosis summary table</div>
+      <div class="card-title">Diagnosis summary table</div>
       <table class="tbl">
         <thead>
-          <tr>
-            <th>Diagnosis</th>
-            <th>Patients</th>
-            <th>Risk tier</th>
-            <th>Avg age</th>
-            <th>Prevalence</th>
-          </tr>
+          <tr><th>Diagnosis</th><th>Patients</th><th>Risk tier</th><th>Avg age</th><th>Prevalence</th></tr>
         </thead>
         <tbody id="diagTable"></tbody>
       </table>
@@ -158,34 +155,18 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; }
 
   <div id="p2" class="content">
     <div class="kpis" style="grid-template-columns:repeat(3,1fr);">
-      <div class="kpi">
-        <div class="kpi-label">Avg Heart Rate</div>
-        <div class="kpi-val">74.3</div>
-        <div class="kpi-sub">beats per minute</div>
-      </div>
-      <div class="kpi danger">
-        <div class="kpi-label">Avg QRS Duration</div>
-        <div class="kpi-val">103.6</div>
-        <div class="kpi-sub">ms — elevated in severe</div>
-      </div>
-      <div class="kpi warn">
-        <div class="kpi-label">Avg QT Interval</div>
-        <div class="kpi-val">393.4</div>
-        <div class="kpi-sub">ms across all patients</div>
-      </div>
+      <div class="kpi"><div class="kpi-label">Avg Heart Rate</div><div class="kpi-val">74.3</div><div class="kpi-sub">beats per minute</div></div>
+      <div class="kpi danger"><div class="kpi-label">Avg QRS Duration</div><div class="kpi-val">103.6</div><div class="kpi-sub">ms — elevated in severe</div></div>
+      <div class="kpi warn"><div class="kpi-label">Avg QT Interval</div><div class="kpi-val">393.4</div><div class="kpi-sub">ms across all patients</div></div>
     </div>
     <div class="page3-grid">
       <div class="card">
-        <div class="card-title"><i class="ti ti-point" aria-hidden="true"></i>Age vs heart rate by risk tier</div>
-        <div style="position:relative;width:100%;height:260px;">
-          <canvas id="scatterChart" role="img" aria-label="Scatter plot of patient age vs heart rate colored by risk tier"></canvas>
-        </div>
+        <div class="card-title">Age vs heart rate by risk tier</div>
+        <div style="position:relative;width:100%;height:270px;"><canvas id="scatterChart"></canvas></div>
       </div>
       <div class="card">
-        <div class="card-title"><i class="ti ti-activity" aria-hidden="true"></i>Avg QRS duration by diagnosis</div>
-        <div style="position:relative;width:100%;height:260px;">
-          <canvas id="qrsBar" role="img" aria-label="Horizontal bar chart of average QRS duration by arrhythmia type"></canvas>
-        </div>
+        <div class="card-title">Avg QRS duration by diagnosis</div>
+        <div style="position:relative;width:100%;height:270px;"><canvas id="qrsBar"></canvas></div>
       </div>
     </div>
   </div>
@@ -193,30 +174,11 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; }
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const BLUE = '#1A5F8A', RED = '#C0392B', GREEN = '#1A8A6A', AMBER = '#C07A1A', PURPLE = '#6A4C93', TEAL = '#1A8A8A';
-const LBLUE = '#E6F1FA', LRED = '#FDECEA', LGREEN = '#E0F5EE', LAMB = '#FEF6EC';
-
-function showPage(i, btn) {
-  document.querySelectorAll('.content').forEach(c => c.classList.remove('show'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('p'+i).classList.add('show');
-  btn.classList.add('active');
-}
-
-function filterRisk(t, btn) {
-  document.querySelectorAll('.slicer-btn').forEach(b => {
-    b.classList.remove('sel','sel-d','sel-w');
-    b.style.borderColor=''; b.style.color=''; b.style.background='';
-  });
-  if(t==='all') btn.classList.add('sel');
-  else if(t==='severe') btn.classList.add('sel-d');
-  else if(t==='mild') btn.classList.add('sel-w');
-  else { btn.style.borderColor='#1A8A6A'; btn.style.color='#1A8A6A'; btn.style.background='#E0F5EE'; }
-}
+const BLUE='#1A5F8A', RED='#C0392B', GREEN='#1A8A6A', AMBER='#C07A1A', LBLUE='#85B7EB';
 
 const diagData = [
   {name:'Normal', n:245, risk:'Normal', age:50.1},
-  {name:'Right Bundle Branch Block', n:50, risk:'Severe', age:55.3},
+  {name:'Right Bundle Branch Block', n:50, risk:'Mild', age:55.3},
   {name:'Ischemic Changes', n:44, risk:'Mild', age:58.7},
   {name:'Others', n:22, risk:'Mild', age:52.4},
   {name:'Sinus Bradycardia', n:25, risk:'Mild', age:47.2},
@@ -229,32 +191,137 @@ const diagData = [
   {name:'Ventricular PVC', n:3, risk:'Severe', age:49.5},
 ];
 
-const tbody = document.getElementById('diagTable');
-diagData.forEach(d => {
-  const pct = ((d.n/452)*100).toFixed(1);
-  const bw = Math.round((d.n/245)*100);
-  const bc = d.risk==='Normal'?GREEN:d.risk==='Mild'?AMBER:RED;
-  const badge = d.risk==='Normal'?'badge-n':d.risk==='Mild'?'badge-m':'badge-s';
-  tbody.innerHTML += `<tr>
-    <td style="font-weight:500;">${d.name}</td>
-    <td>${d.n}</td>
-    <td><span class="badge ${badge}">${d.risk}</span></td>
-    <td>${d.age.toFixed(1)}</td>
-    <td><span class="bar-mini" style="width:${bw}px;background:${bc};"></span> ${pct}%</td>
-  </tr>`;
-});
+const ageGroupData = {
+  Normal: {'Under 30':28,'30–49':89,'50–64':98,'65+':30},
+  Mild:   {'Under 30':8,'30–49':38,'50–64':42,'65+':16},
+  Severe: {'Under 30':5,'30–49':28,'50–64':52,'65+':18},
+};
 
-new Chart(document.getElementById('barChart'), {
-  type: 'bar',
-  data: {
-    labels: ['Normal','Rt Bundle\nBlock','Ischemic\nChanges','Others','Sinus\nBrady','Old Ant\nMI','Old Inf\nMI','Sinus\nTachy','Lt Bundle\nBlock','Atrial\nFib'],
-    datasets: [{
-      data: [245,50,44,22,25,15,15,13,9,5],
-      backgroundColor: [GREEN,RED,AMBER,BLUE,AMBER,RED,RED,AMBER,RED,RED],
-      borderRadius: 4, borderSkipped: false
-    }]
-  },
-  options: {
+const genderData = {
+  Normal: {Male:130, Female:115},
+  Mild:   {Male:68,  Female:36},
+  Severe: {Male:72,  Female:31},
+};
+
+let currentFilter = 'all';
+let barChart, donutChart, stackedBar, genderBar;
+
+function riskColor(r){ return r==='Normal'?GREEN:r==='Mild'?AMBER:RED; }
+
+function getFilteredDiag(){
+  if(currentFilter==='all') return diagData;
+  return diagData.filter(d=>d.risk===currentFilter);
+}
+
+function totalsForFilter(){
+  const rows = getFilteredDiag();
+  const total = rows.reduce((s,d)=>s+d.n,0);
+  const normal = rows.filter(d=>d.risk==='Normal').reduce((s,d)=>s+d.n,0);
+  const mild = rows.filter(d=>d.risk==='Mild').reduce((s,d)=>s+d.n,0);
+  const severe = rows.filter(d=>d.risk==='Severe').reduce((s,d)=>s+d.n,0);
+  return {total, normal, mild, severe, arrhythmia: mild+severe};
+}
+
+function filterRisk(tier, btn){
+  currentFilter = tier;
+  document.querySelectorAll('#riskSlicer .slicer-btn').forEach(b=>{
+    b.classList.remove('sel-all','sel-normal','sel-mild','sel-severe');
+  });
+  if(tier==='all') btn.classList.add('sel-all');
+  else if(tier==='Normal') btn.classList.add('sel-normal');
+  else if(tier==='Mild') btn.classList.add('sel-mild');
+  else if(tier==='Severe') btn.classList.add('sel-severe');
+
+  updateKPIs();
+  updateBarChart();
+  updateDonut();
+  updateStacked();
+  updateGenderBar();
+  updateTable();
+}
+
+function updateKPIs(){
+  const t = totalsForFilter();
+  document.getElementById('kpiTotal').textContent = t.total;
+  document.getElementById('kpiTotalSub').textContent = currentFilter==='all' ? 'Full dataset' : currentFilter + ' risk patients';
+  document.getElementById('kpiSevere').textContent = currentFilter==='all' ? t.severe : (currentFilter==='Severe'? t.total : t.severe);
+  document.getElementById('kpiNormal').textContent = currentFilter==='all' ? t.normal : (currentFilter==='Normal'? t.total : t.normal);
+  const ratePct = t.total ? ((t.arrhythmia/t.total)*100).toFixed(1) : '0.0';
+  document.getElementById('kpiRate').textContent = currentFilter==='Normal' ? '0.0%' : ratePct+'%';
+  document.getElementById('kpiRateSub').textContent = (currentFilter==='Normal'?0:t.arrhythmia) + ' diagnosed';
+}
+
+function updateBarChart(){
+  const rows = getFilteredDiag().slice().sort((a,b)=>b.n-a.n);
+  barChart.data.labels = rows.map(d=>d.name.replace(/ /g,'\n'));
+  barChart.data.datasets[0].data = rows.map(d=>d.n);
+  barChart.data.datasets[0].backgroundColor = rows.map(d=>riskColor(d.risk));
+  barChart.update();
+}
+
+function updateDonut(){
+  const t = totalsForFilter();
+  donutChart.data.datasets[0].data = [t.normal, t.mild + t.severe];
+  donutChart.update();
+  document.getElementById('donutLegend').innerHTML = `
+    <div class="legend-row"><div class="leg-dot" style="background:${GREEN}"></div><span class="leg-label">Normal</span><span class="leg-val">${t.normal}</span></div>
+    <div class="legend-row"><div class="leg-dot" style="background:${RED}"></div><span class="leg-label">Arrhythmia</span><span class="leg-val">${t.mild+t.severe}</span></div>`;
+}
+
+function updateStacked(){
+  const tiers = currentFilter==='all' ? ['Normal','Mild','Severe'] : [currentFilter];
+  stackedBar.data.datasets = tiers.map(tier=>({
+    label: tier,
+    data: ['Under 30','30–49','50–64','65+'].map(ag=>ageGroupData[tier][ag]),
+    backgroundColor: riskColor(tier),
+    borderRadius: 2
+  }));
+  stackedBar.update();
+}
+
+function updateGenderBar(){
+  const tiers = currentFilter==='all' ? ['Normal','Mild','Severe'] : [currentFilter];
+  genderBar.data.labels = tiers;
+  genderBar.data.datasets = [
+    {label:'Male', data: tiers.map(t=>genderData[t].Male), backgroundColor: BLUE, borderRadius:3},
+    {label:'Female', data: tiers.map(t=>genderData[t].Female), backgroundColor: LBLUE, borderRadius:3},
+  ];
+  genderBar.update();
+}
+
+function updateTable(){
+  const tbody = document.getElementById('diagTable');
+  const rows = getFilteredDiag();
+  if(rows.length===0){
+    tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No diagnoses match this filter</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(d=>{
+    const pct = ((d.n/452)*100).toFixed(1);
+    const bw = Math.max(4, Math.round((d.n/245)*100));
+    const badge = d.risk==='Normal'?'badge-n':d.risk==='Mild'?'badge-m':'badge-s';
+    return `<tr>
+      <td style="font-weight:500;">${d.name}</td>
+      <td>${d.n}</td>
+      <td><span class="badge ${badge}">${d.risk}</span></td>
+      <td>${d.age.toFixed(1)}</td>
+      <td><span class="bar-mini" style="width:${bw}px;background:${riskColor(d.risk)};"></span> ${pct}%</td>
+    </tr>`;
+  }).join('');
+}
+
+function showPage(i, btn){
+  document.querySelectorAll('.content').forEach(c=>c.classList.remove('show'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('p'+i).classList.add('show');
+  btn.classList.add('active');
+}
+
+// Init charts
+barChart = new Chart(document.getElementById('barChart'), {
+  type:'bar',
+  data:{ labels:[], datasets:[{data:[], backgroundColor:[], borderRadius:4, borderSkipped:false}] },
+  options:{
     responsive:true, maintainAspectRatio:false,
     plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' '+c.raw+' patients'}} },
     scales:{
@@ -264,35 +331,22 @@ new Chart(document.getElementById('barChart'), {
   }
 });
 
-new Chart(document.getElementById('donutChart'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Normal','Arrhythmia'],
-    datasets: [{
-      data: [245, 207],
-      backgroundColor: [GREEN, RED],
-      borderWidth: 0, hoverOffset: 4
-    }]
-  },
-  options: {
-    responsive:true, maintainAspectRatio:false, cutout:'68%',
-    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>c.label+': '+c.raw}} }
-  }
+donutChart = new Chart(document.getElementById('donutChart'), {
+  type:'doughnut',
+  data:{ labels:['Normal','Arrhythmia'], datasets:[{data:[245,207], backgroundColor:[GREEN,RED], borderWidth:0, hoverOffset:4}] },
+  options:{ responsive:true, maintainAspectRatio:false, cutout:'68%', plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>c.label+': '+c.raw}} } }
 });
 
-new Chart(document.getElementById('stackedBar'), {
-  type: 'bar',
-  data: {
-    labels: ['Under 30','30–49','50–64','65+'],
-    datasets: [
-      {label:'Normal', data:[28,89,98,30], backgroundColor:GREEN, borderRadius:2},
-      {label:'Mild', data:[8,38,42,16], backgroundColor:AMBER, borderRadius:2},
-      {label:'Severe', data:[5,28,52,18], backgroundColor:RED, borderRadius:2},
-    ]
-  },
-  options: {
+stackedBar = new Chart(document.getElementById('stackedBar'), {
+  type:'bar',
+  data:{ labels:['Under 30','30–49','50–64','65+'], datasets:[
+    {label:'Normal', data:[28,89,98,30], backgroundColor:GREEN, borderRadius:2},
+    {label:'Mild', data:[8,38,42,16], backgroundColor:AMBER, borderRadius:2},
+    {label:'Severe', data:[5,28,52,18], backgroundColor:RED, borderRadius:2},
+  ]},
+  options:{
     responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{display:false}, tooltip:{mode:'index',intersect:false} },
+    plugins:{ legend:{position:'top', labels:{font:{size:10}, boxWidth:10}}, tooltip:{mode:'index',intersect:false} },
     scales:{
       x:{ stacked:true, grid:{display:false}, ticks:{font:{size:10},color:'#7A8A99'} },
       y:{ stacked:true, grid:{color:'#F0F4F8'}, ticks:{font:{size:9},color:'#7A8A99'}, border:{display:false} }
@@ -300,18 +354,15 @@ new Chart(document.getElementById('stackedBar'), {
   }
 });
 
-new Chart(document.getElementById('genderBar'), {
-  type: 'bar',
-  data: {
-    labels: ['Normal','Mild','Severe'],
-    datasets: [
-      {label:'Male', data:[130,68,72], backgroundColor:BLUE, borderRadius:3},
-      {label:'Female', data:[115,36,31], backgroundColor:'#85B7EB', borderRadius:3},
-    ]
-  },
-  options: {
+genderBar = new Chart(document.getElementById('genderBar'), {
+  type:'bar',
+  data:{ labels:['Normal','Mild','Severe'], datasets:[
+    {label:'Male', data:[130,68,72], backgroundColor:BLUE, borderRadius:3},
+    {label:'Female', data:[115,36,31], backgroundColor:LBLUE, borderRadius:3},
+  ]},
+  options:{
     responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{display:false} },
+    plugins:{ legend:{position:'top', labels:{font:{size:10}, boxWidth:10}} },
     scales:{
       x:{ grid:{display:false}, ticks:{font:{size:10},color:'#7A8A99'} },
       y:{ grid:{color:'#F0F4F8'}, ticks:{font:{size:9},color:'#7A8A99'}, border:{display:false} }
@@ -319,25 +370,21 @@ new Chart(document.getElementById('genderBar'), {
   }
 });
 
-const scatterPts = [];
-const riskColors = { normal: GREEN, mild: AMBER, severe: RED };
 const mockPts = [
-  ...Array.from({length:60},(_,i)=>({x:20+Math.round(Math.random()*55),y:55+Math.round(Math.random()*40),r:'normal'})),
-  ...Array.from({length:30},(_,i)=>({x:25+Math.round(Math.random()*50),y:60+Math.round(Math.random()*50),r:'mild'})),
-  ...Array.from({length:25},(_,i)=>({x:30+Math.round(Math.random()*45),y:65+Math.round(Math.random()*55),r:'severe'})),
+  ...Array.from({length:60},()=>({x:20+Math.round(Math.random()*55),y:55+Math.round(Math.random()*40),r:'normal'})),
+  ...Array.from({length:30},()=>({x:25+Math.round(Math.random()*50),y:60+Math.round(Math.random()*50),r:'mild'})),
+  ...Array.from({length:25},()=>({x:30+Math.round(Math.random()*45),y:65+Math.round(Math.random()*55),r:'severe'})),
 ];
 new Chart(document.getElementById('scatterChart'), {
-  type: 'scatter',
-  data: {
-    datasets: [
-      {label:'Normal', data:mockPts.filter(p=>p.r==='normal').map(p=>({x:p.x,y:p.y})), backgroundColor:GREEN+'99', pointRadius:4},
-      {label:'Mild', data:mockPts.filter(p=>p.r==='mild').map(p=>({x:p.x,y:p.y})), backgroundColor:AMBER+'99', pointRadius:4},
-      {label:'Severe', data:mockPts.filter(p=>p.r==='severe').map(p=>({x:p.x,y:p.y})), backgroundColor:RED+'99', pointRadius:4},
-    ]
-  },
-  options: {
+  type:'scatter',
+  data:{ datasets:[
+    {label:'Normal', data:mockPts.filter(p=>p.r==='normal').map(p=>({x:p.x,y:p.y})), backgroundColor:GREEN+'99', pointRadius:4},
+    {label:'Mild', data:mockPts.filter(p=>p.r==='mild').map(p=>({x:p.x,y:p.y})), backgroundColor:AMBER+'99', pointRadius:4},
+    {label:'Severe', data:mockPts.filter(p=>p.r==='severe').map(p=>({x:p.x,y:p.y})), backgroundColor:RED+'99', pointRadius:4},
+  ]},
+  options:{
     responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>`Age ${c.parsed.x}, HR ${c.parsed.y}`}} },
+    plugins:{ legend:{position:'top', labels:{font:{size:10}, boxWidth:10}}, tooltip:{callbacks:{label:c=>`Age ${c.parsed.x}, HR ${c.parsed.y}`}} },
     scales:{
       x:{ title:{display:true,text:'Age (years)',font:{size:10},color:'#7A8A99'}, grid:{color:'#F0F4F8'}, ticks:{font:{size:9},color:'#7A8A99'}, min:15, max:85 },
       y:{ title:{display:true,text:'Heart Rate (bpm)',font:{size:10},color:'#7A8A99'}, grid:{color:'#F0F4F8'}, ticks:{font:{size:9},color:'#7A8A99'}, min:40, max:130 }
@@ -346,18 +393,11 @@ new Chart(document.getElementById('scatterChart'), {
 });
 
 new Chart(document.getElementById('qrsBar'), {
-  type: 'bar',
-  data: {
-    labels: ['Lt Bundle Block','Rt Bundle Block','Atrial Fib','Old Ant MI','Old Inf MI','Normal','Ischemic','Sinus Brady','Sinus Tachy'],
-    datasets: [{
-      data: [162,148,118,115,112,98,102,94,88],
-      backgroundColor: [RED,RED,RED,RED,RED,GREEN,AMBER,AMBER,AMBER],
-      borderRadius:3, borderSkipped:false
-    }]
-  },
-  options: {
-    indexAxis:'y',
-    responsive:true, maintainAspectRatio:false,
+  type:'bar',
+  data:{ labels:['Lt Bundle Block','Rt Bundle Block','Atrial Fib','Old Ant MI','Old Inf MI','Normal','Ischemic','Sinus Brady','Sinus Tachy'],
+    datasets:[{ data:[162,148,118,115,112,98,102,94,88], backgroundColor:[RED,RED,RED,RED,RED,GREEN,AMBER,AMBER,AMBER], borderRadius:3, borderSkipped:false }] },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
     plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>c.raw+' ms'}} },
     scales:{
       x:{ grid:{color:'#F0F4F8'}, ticks:{font:{size:9},color:'#7A8A99'}, border:{display:false} },
@@ -365,4 +405,11 @@ new Chart(document.getElementById('qrsBar'), {
     }
   }
 });
+
+// Initial render
+updateBarChart();
+updateDonut();
+updateTable();
 </script>
+</body>
+</html>
